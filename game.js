@@ -26,9 +26,7 @@ const currentMode = () => `It's ${mode} mode`;
 statusDisplay.innerHTML = chooseGameMode();
 
 function isAITurn() {
-    let s = Math.random();
-    console.log(s)
-    AITurn = s >= 0.5;
+    AITurn = Math.random() >= 0.5;
 }
 
 function AIGame() {
@@ -54,9 +52,9 @@ function handleCellPlayed(clickedCell, clickedCellIndex) {
 }
 
 function handlePlayerChange() {
-        currentPlayer = currentPlayer === "X" ? "O" : "X";
-        statusDisplay.innerHTML = currentPlayerTurn();
-        AITurn = AITurn === false
+    currentPlayer = currentPlayer === "X" ? "O" : "X";
+    statusDisplay.innerHTML = currentPlayerTurn();
+    AITurn = AITurn === false
 }
 
 function handleResultValidation() {
@@ -98,19 +96,23 @@ function handleCellClick(clickedCellEvent) {
 
     handleCellPlayed(clickedCell, clickedCellIndex);
     handleResultValidation();
-    if(mode==="AI" && AITurn){
-        handleComputerMove();
+    if (mode === "AI" && AITurn) {
+        gameActive = false;
+        setTimeout(() => {
+            handleComputerMove();
+        }, 800);
     }
 }
 
 function handleComputerMove() {
-    let randomCell;
-    let i =0;
+    let randomCellNumber;
+    let i = 0;
     do {
-        randomCell = Math.floor(Math.random() * 9);
+        randomCellNumber = Math.floor(Math.random() * 9);
         i++;
-    } while (gameState[randomCell] !== "" && i < 100 );
-    let cell = document.querySelector(`div[data-cell-index="${randomCell}"]`);
+    } while (gameState[randomCellNumber] !== "" && i < 100);
+    gameActive = true;
+    let cell = document.querySelector(`div[data-cell-index="${randomCellNumber}"]`);
     cell.click();
 }
 
