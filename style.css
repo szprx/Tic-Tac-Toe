@@ -1,5 +1,6 @@
 body {
     font-family: "Arial", sans-serif;
+    background: #DAF5FF;
 }
 
 section {
@@ -39,11 +40,38 @@ section {
 }
 
 .game--restart {
-    background-color: #f7e4ac;
-    width: 200px;
-    height: 50px;
-    font-size: 25px;
-    color: #5586e2;
-    box-shadow: 2px 2px 2px 2px #d86c23;
-    border: 2px solid #d86c23;
+    background-color: #11213a; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 10px;
+    width:320px;
+}
+label{
+    color: #11213a;
+    padding: 8px;
+    background-color: #DAF5FF;
+    font-weight: bold;
+    font-size: x-large;
+}
+.mode--twoPlayers , .mode--AI{
+    background-color: #d7a62f; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 10px;
+    width:160px;
+}
+
+.game--statistic--x, .game--statistic--o{
+    color: black;
+
 }

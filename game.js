@@ -1,10 +1,14 @@
 const statusDisplay = document.querySelector('.game--status');
+const gameStatisticX = document.querySelector('.game--statistic--x');
+const gameStatisticO = document.querySelector('.game--statistic--o');
 
 let gameActive = false;
 let mode = "AI"
 let currentPlayer = "X";
 let gameState = ["", "", "", "", "", "", "", "", ""];
 let AITurn = true;
+let statisticX = 0;
+let statisticO = 0;
 
 const winningConditions = [
     [0, 1, 2],
@@ -22,6 +26,8 @@ const drawMessage = () => `Game ended in a draw!`;
 const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`;
 const chooseGameMode = () => `Choose game mode`;
 const currentMode = () => `It's ${mode} mode`;
+const xHasWonRound = () => `Player X won ${statisticX} times`+ `&#9787;`;
+const oHasWonRound = () => `Player O won ${statisticO} times` + `&#9787;`;
 
 statusDisplay.innerHTML = chooseGameMode();
 
@@ -74,6 +80,14 @@ function handleResultValidation() {
 
     if (roundWon) {
         statusDisplay.innerHTML = winningMessage();
+        if (currentPlayer === "X") {
+            statisticX++;
+            gameStatisticX.innerHTML = xHasWonRound();
+        }
+        else {
+            statisticO++;
+            gameStatisticO.innerHTML = oHasWonRound();
+        }
         gameActive = false;
         return;
     }
