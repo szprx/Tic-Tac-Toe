@@ -105,14 +105,13 @@ function handleCellClick(clickedCellEvent) {
 
 function handleComputerMove() {
     let randomCell;
+    let i =0;
     do {
         randomCell = Math.floor(Math.random() * 9);
-        console.log("nakuriwa");
-    } while (gameState[randomCell] !== "");
+        i++;
+    } while (gameState[randomCell] !== "" && i < 100 );
     let cell = document.querySelector(`div[data-cell-index="${randomCell}"]`);
     cell.click();
-    console.log("wybral");
-    console.log(AITurn)
 }
 
 function handleRestartGame() {
