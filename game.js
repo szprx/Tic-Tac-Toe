@@ -1,14 +1,10 @@
 const statusDisplay = document.querySelector('.game--status');
 
-let gameActive = true;
+let gameActive = false;
+let mode = "AI"
 let currentPlayer = "X";
 let gameState = ["", "", "", "", "", "", "", "", ""];
-
-const winningMessage = () => `Player ${currentPlayer} has won!`;
-const drawMessage = () => `Game ended in a draw!`;
-const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`;
-
-statusDisplay.innerHTML = currentPlayerTurn();
+let AITurn = true;
 
 const winningConditions = [
     [0, 1, 2],
@@ -21,66 +17,111 @@ const winningConditions = [
     [2, 4, 6]
 ];
 
+const winningMessage = () => `Player ${currentPlayer} has won!`;
+const drawMessage = () => `Game ended in a draw!`;
+const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`;
+const chooseGameMode = () => `Choose game mode`;
+const currentMode = () => `It's ${mode} mode`;
+
+statusDisplay.innerHTML = chooseGameMode();
+
+function isAITurn() {
+    let s = Math.random();
+    console.log(s)
+    AITurn = s >= 0.5;
+}
+
+function AIGame() {
+    mode = "AI";
+    gameActive = true;
+    statusDisplay.innerHTML = currentMode();
+
+    isAITurn();
+    if (AITurn) {
+        //TODO wybor ruchu
+        document.querySelector('div[data-cell-index="4"]').click();
+    }
+}
+
+function twoPlayersGame() {
+    mode = "two Players";
+    gameActive = true;
+    statusDisplay.innerHTML = currentMode();
+}
+
 function handleCellPlayed(clickedCell, clickedCellIndex) {
     gameState[clickedCellIndex] = currentPlayer;
     clickedCell.innerHTML = currentPlayer;
 }
 
 function handlePlayerChange() {
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
-    statusDisplay.innerHTML = currentPlayerTurn();
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+        statusDisplay.innerHTML = currentPlayerTurn();
+        AITurn = AITurn === false
 }
 
 function handleResultValidation() {
     let roundWon = false;
-    for(let i = 0; i <= 7; i++) {
+    for (let i = 0; i <= 7; i++) {
         const winCondition = winningConditions[i];
         const a = gameState[winCondition[0]];
         const b = gameState[winCondition[1]];
         const c = gameState[winCondition[2]];
-        if(a === '' || b === '' || c === '')
+        if (a === '' || b === '' || c === '')
             continue;
-        if(a === b && b === c) {
+        if (a === b && b === c) {
             roundWon = true;
             break
         }
     }
 
-    if(roundWon) {
+    if (roundWon) {
         statusDisplay.innerHTML = winningMessage();
         gameActive = false;
         return;
     }
 
     const roundDraw = !gameState.includes("");
-    if(roundDraw) {
+    if (roundDraw) {
         statusDisplay.innerHTML = drawMessage();
         gameActive = false;
         return;
     }
-
-    handlePlayerChange();z
+    handlePlayerChange();
 }
 
 function handleCellClick(clickedCellEvent) {
     const clickedCell = clickedCellEvent.target;
     const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'));
 
-    if(gameState[clickedCellIndex] !== "" || !gameActive)
+    if (gameState[clickedCellIndex] !== "" || !gameActive)
         return;
 
     handleCellPlayed(clickedCell, clickedCellIndex);
     handleResultValidation();
+    if(mode==="AI" && AITurn){
+        document.querySelector('div[data-cell-index="5"]').click();
+    }
+}
+
+function AICellPlayed(){
+    while(AITurn){
+        document.querySelector('div[data-cell-index="6"]').click();
+    }
+
 }
 
 function handleRestartGame() {
-    gameActive = true;
+    gameActive = false;
     currentPlayer = "X";
     gameState = ["", "", "", "", "", "", "", "", ""];
-    statusDisplay.innerHTML = currentPlayerTurn();
+    statusDisplay.innerHTML = chooseGameMode();
     document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = "");
 }
 
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
 document.querySelector('.game--restart').addEventListener('click', handleRestartGame);
+
+document.querySelector('.mode--AI').addEventListener('click', AIGame);
+document.querySelector('.mode--twoPlayers').addEventListener('click', twoPlayersGame);
