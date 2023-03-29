@@ -38,8 +38,7 @@ function AIGame() {
 
     isAITurn();
     if (AITurn) {
-        //TODO wybor ruchu
-        document.querySelector('div[data-cell-index="4"]').click();
+        handleComputerMove()
     }
 }
 
@@ -100,15 +99,20 @@ function handleCellClick(clickedCellEvent) {
     handleCellPlayed(clickedCell, clickedCellIndex);
     handleResultValidation();
     if(mode==="AI" && AITurn){
-        document.querySelector('div[data-cell-index="5"]').click();
+        handleComputerMove();
     }
 }
 
-function AICellPlayed(){
-    while(AITurn){
-        document.querySelector('div[data-cell-index="6"]').click();
-    }
-
+function handleComputerMove() {
+    let randomCell;
+    do {
+        randomCell = Math.floor(Math.random() * 9);
+        console.log("nakuriwa");
+    } while (gameState[randomCell] !== "");
+    let cell = document.querySelector(`div[data-cell-index="${randomCell}"]`);
+    cell.click();
+    console.log("wybral");
+    console.log(AITurn)
 }
 
 function handleRestartGame() {
